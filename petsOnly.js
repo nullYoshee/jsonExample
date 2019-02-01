@@ -19,7 +19,7 @@
       "species" : "Dog",
       "favFoods" : ["smooshy stuff", "own poop", "food that can kill me"],
       "birthYear" : 2014,
-      "photo" : "http://doggiemanners.com/wp-content/uploads/2015/01/dog-at-computer-wp.jpg"
+      "photo" : "http://www.wallpapergeeks.com/wp-content/uploads/2015/06/innocent-puppy-wallpaper-800x600.jpg"
     },
     {
       "name" : "Allie Cat",
