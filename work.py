@@ -7,7 +7,6 @@ from cosmic import CosmicUnicorn
 from picographics import PicoGraphics, DISPLAY_COSMIC_UNICORN
 from pngdec import PNG
 from machine import Pin
-import myDayTest
 
 graphics = PicoGraphics(display=DISPLAY_COSMIC_UNICORN)
 gu = CosmicUnicorn()
@@ -317,7 +316,6 @@ note.append(frame (4, 2))
 
 faceframes =["work", "chillin","runnin", "ded", "den", "dino", "meeting", "fire", "me", "note"]
 
-#TODO: repace with webhook or server logic
 selected_frame = random.choice(faceframes)
 print(f"Selected frame: {selected_frame}")
 
@@ -332,9 +330,8 @@ def DoorStuff():
     busy = True
     
     #pick random face
-    selected_frame = myDayTest.fuck()["Title"];
+    selected_frame = random.choice(faceframes)
     print(f"Selected frame: {selected_frame}")
-    
     # Use the correct list of frames based on selected_frame
     if selected_frame == "work":
         frame_list = work
@@ -356,10 +353,9 @@ def DoorStuff():
         frame_list = me
     elif selected_frame == "note":
         frame_list = note
-    elif selected_frame == "sleep":
-        frame_list = note
     else:
-        frame_list = []  # Handle the sleep
+        frame_list = []  # Handle the case when selected_frame is invalid
+
 
     for frame in frame_list:
         gu.set_brightness(1.0)
