@@ -2,16 +2,11 @@ import urequests as requests
 import json
 import time
 import network
-try:
-    from WIFI_CONFIG import SSID, PSK
-except ImportError:
-    print("Create WIFICONFIG.py with your WiFi credentials")
-    
-# Enable the Wireless
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
+from WIFI_CONFIG import SSID, PSK
+# except ImportError:
+#     print("Create WIFICONFIG.py with your WiFi credentials")
 
-def network_connect(SSID, PSK):
+def network_connect(wlan):
 
     # Number of attempts to make before timeout
     max_wait = 5
@@ -31,15 +26,13 @@ def network_connect(SSID, PSK):
     # Handle connection error. Switches the Warn LED on.
     if wlan.status() != 3:
         print("Unable to connect. Attempting connection again")
-try:
-    network_connect(SSID, PSK)
-except NameError:
-    print("Create WIFI_CONFIG.py with your WiFi credentials")
+        return False
+    return True
+
 def fuck():        
-    while True:
-            url = "https://script.google.com/macros/s/AKfycbzgaTWDLhNsxe1YhWafK3ofqEc93cAs3XNjz0IEhbiqRvCqwyv_AKMyb3ueIeu9Bgc/exec"
-            headers = {
-                "accept": "application/json"
-            }
-            page = requests.get(url)
-            return page.json()
+    url = "https://script.google.com/macros/s/AKfycbzgaTWDLhNsxe1YhWafK3ofqEc93cAs3XNjz0IEhbiqRvCqwyv_AKMyb3ueIeu9Bgc/exec"
+    headers = {
+        "accept": "application/json"
+    }
+    page = requests.get(url)
+    return page.json()

@@ -7,13 +7,21 @@ from cosmic import CosmicUnicorn
 from picographics import PicoGraphics, DISPLAY_COSMIC_UNICORN
 from pngdec import PNG
 from machine import Pin
+import myDayTest
+import network
 
 graphics = PicoGraphics(display=DISPLAY_COSMIC_UNICORN)
 gu = CosmicUnicorn()
-
-
 gu.set_brightness(1.0)
 
+# Enable the Wireless
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+
+connected = False
+while not connected:
+   connected = myDayTest.network_connect(wlan)
+print("here")
 
 png = PNG(graphics)
 png.open_file("/sheet.png")
@@ -113,8 +121,6 @@ runnin.append(frame (2, 1))
 runnin.append(frame (3, 1))
 runnin.append(frame (4, 1))
 
-
-
 den = []
 # describe as index from 0 - 5
 den.append(frame (4, 3))
@@ -177,7 +183,6 @@ ded.append(frame (5, 4))
 ded.append(frame (5, 4))
 ded.append(frame (5, 4))
 ded.append(frame (5, 4))
-
 
 dino = []
 # describe as index from 0 - 5
@@ -245,7 +250,6 @@ meeting.append(frame (3, 3))
 meeting.append(frame (2, 3))
 meeting.append(frame (3, 3))
 
-
 fire = []
 # describe as index from 0 - 5
 fire.append(frame (2, 0))
@@ -274,7 +278,6 @@ fire.append(frame (4, 0))
 fire.append(frame (3, 0))
 fire.append(frame (2, 0))
 
-
 me = []
 # describe as index from 0 - 5
 me.append(frame (5, 2))
@@ -290,7 +293,6 @@ me.append(frame (5, 2))
 me.append(frame (5, 2))
 me.append(frame (5, 2))
 me.append(frame (5, 2))
-
 
 note = []
 # describe as index from 0 - 5
@@ -316,7 +318,7 @@ note.append(frame (4, 2))
 
 faceframes =["work", "chillin","runnin", "ded", "den", "dino", "meeting", "fire", "me", "note"]
 
-selected_frame = random.choice(faceframes)
+selected_frame = "work"
 print(f"Selected frame: {selected_frame}")
 
 busy = False
@@ -330,7 +332,7 @@ def DoorStuff():
     busy = True
     
     #pick random face
-    selected_frame = random.choice(faceframes)
+    selected_frame = myDayTest.fuck()["Title"]
     print(f"Selected frame: {selected_frame}")
     # Use the correct list of frames based on selected_frame
     if selected_frame == "work":
@@ -353,6 +355,8 @@ def DoorStuff():
         frame_list = me
     elif selected_frame == "note":
         frame_list = note
+    elif selected_frame == "sleep":
+        frame_list = meeting
     else:
         frame_list = []  # Handle the case when selected_frame is invalid
 
