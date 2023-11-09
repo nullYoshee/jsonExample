@@ -30,9 +30,18 @@ def network_connect(wlan):
     return True
 
 def fuck():        
-    url = "https://script.google.com/macros/s/AKfycbzgaTWDLhNsxe1YhWafK3ofqEc93cAs3XNjz0IEhbiqRvCqwyv_AKMyb3ueIeu9Bgc/exec"
+    url = "https://script.google.com/macros/s/AKfycbx1Pk7UFf7Cpn4Rn4SPc2sfPsHtc0zrol6WA6A5rWQevK4SGTvhTLxh2LY8JWX9KgSL/exec"
     headers = {
         "accept": "application/json"
     }
+    print('huh')
     page = requests.get(url)
-    return page.json()
+    psc = page.status_code
+    while psc != 200:
+        time.sleep(1)
+        page = requests.get(url)
+        print(page)
+    print(page)
+    pageData = page.json()
+    page.close()
+    return pageData

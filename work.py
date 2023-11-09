@@ -26,7 +26,6 @@ print("here")
 png = PNG(graphics)
 png.open_file("/sheet.png")
 
-
 frame_width = 32
 frame_height = 32
 
@@ -103,7 +102,6 @@ chillin.append(frame (1, 0))
 
 runnin = []
 # describe as index from 0 - 5
-
 runnin.append(frame (1,1))
 runnin.append(frame (2, 1))
 runnin.append(frame (3, 1))
@@ -316,76 +314,113 @@ note.append(frame (4, 2))
 note.append(frame (4, 2))
 note.append(frame (4, 2))
 
-faceframes =["work", "chillin","runnin", "ded", "den", "dino", "meeting", "fire", "me", "note"]
+weekly = []
+# describe as index from 0 - 5
+weekly.append(frame (4, 0))
+weekly.append(frame (5, 0))
+weekly.append(frame (4, 0))
+weekly.append(frame (5, 0))
+weekly.append(frame (4, 0))
+weekly.append(frame (5, 0))
+weekly.append(frame (4, 0))
+weekly.append(frame (5, 0))
+weekly.append(frame (4, 0))
+weekly.append(frame (5, 0))
+weekly.append(frame (4, 0))
+weekly.append(frame (5, 0))
+weekly.append(frame (4, 0))
+weekly.append(frame (5, 0))
+weekly.append(frame (4, 0))
+weekly.append(frame (5, 0))
+weekly.append(frame (4, 0))
+weekly.append(frame (5, 0))
+weekly.append(frame (4, 0))
+weekly.append(frame (5, 0))
 
-selected_frame = "work"
-print(f"Selected frame: {selected_frame}")
+workDuties =[work,chillin,runnin,note,weekly]
+
+calText = "work"
+print(f"Selected frame: {calText}")
 
 busy = False
 
 def DoorStuff():
     global busy
 
-    #auto set brightness from light sensor        
-    #gu.set_brightness(max(.15,min(1.,gu.light()/600)))
+    #auto set brightness from light sensor
+    #print(gu.light()/300)
+    gu.set_brightness(max(.25,min(1.,gu.light()/300)))
+    gu.set_volume(0.001) 
+    #play random sound
+    #wp.play(random.choice(audioFile), loop=1)
     
     busy = True
+    calData = myDayTest.fuck()
+    calText = calData["Title"]
+    calStatus = calData["Status"]
+    calColor = calData["Color"]
     
-    #pick random face
-    selected_frame = myDayTest.fuck()["Title"]
-    print(f"Selected frame: {selected_frame}")
-    # Use the correct list of frames based on selected_frame
-    if selected_frame == "work":
-        frame_list = work
-    elif selected_frame == "chillin":
-        frame_list = chillin
-    elif selected_frame == "runnin":
-        frame_list = runnin
-    elif selected_frame == "ded":
-        frame_list = ded
-    elif selected_frame == "den":
-        frame_list = den
-    elif selected_frame == "dino":
-        frame_list = dino
-    elif selected_frame == "meeting":
-        frame_list = meeting
-    elif selected_frame == "fire":
-        frame_list = fire
-    elif selected_frame == "me":
-        frame_list = me
-    elif selected_frame == "note":
-        frame_list = note
-    elif selected_frame == "sleep":
-        frame_list = meeting
-    else:
-        frame_list = []  # Handle the case when selected_frame is invalid
-
-
-    for frame in frame_list:
-        gu.set_brightness(1.0)
-        #fuckin comments need to be tabbed
-        # Clear the display before drawing the new frame
+    workin = random.choice(workDuties)
+    
+    print(f"calendar data: {calText} {calStatus} {calColor}")
+    
+    # Use the correct list of frames based on calText
+    if "work" in calText :
+        spriteList = workin
+        
+    elif "chillin" in calText :
+        spriteList = chillin
+    elif "runnin" in calText :
+        spriteList = runnin
+    elif "ood" in calText :
+        spriteList = ded
+    elif "lynx" in calText :
+        spriteList = den
+    elif "lunch" in calText :
+        spriteList = dino
+    elif "meeting" in calText :
+        spriteList = meeting
+    elif "fire" in calText :
+        spriteList = fire
+    elif "me" in calText :
+        spriteList = me
+    elif "broken" in calText :
+        spriteList = note
+    elif "sleep" in calText :
+        # Clear display set spriteList to 0
+        spriteList = []
         graphics.set_pen(black)
         graphics.clear()
+        gu.update(graphics)
+    else:
+        spriteList = meeting
+        
+    
+    for frame in spriteList:
+        if len(spriteList) != 0:
+            #gu.set_brightness(1.0)
+            #fuckin comments need to be tabbed
+            # Clear the display before drawing the new frame
+            graphics.set_pen(black)
+            graphics.clear()
 
-        # Decode and display the current frame
-        png.decode(0, 0, source=(frame.frame_x * frame_width, frame.frame_y * frame_height, frame_width, frame_height), scale=(1, 1), rotate=0)
-        #gu.adjust_brightness(-0.25)  # brightness ad
-                
-        gu.update(graphics)        
-        time.sleep(0.1)  # Adjust speed of anim
+            # Decode and display the current frame
+            png.decode(0, 0, source=(frame.frame_x * frame_width, frame.frame_y * frame_height, frame_width, frame_height), scale=(1, 1), rotate=90)
+            #gu.adjust_brightness(-0.25)  # brightness ad
+                    
+            gu.update(graphics)        
+            time.sleep(0.1)  # Adjust speed of anim
 
     # Clear display
     graphics.set_pen(black)
     graphics.clear()
     gu.update(graphics)
     
-    time.sleep(5) # Time out so it does not trigger again immediately
+    time.sleep(15) # Time out so it does not trigger again immediately
     
     busy = False
 
 
 while True:
-    #if gu.is_pressed(CosmicUnicorn.SWITCH_A):
         if not busy:
             DoorStuff()
